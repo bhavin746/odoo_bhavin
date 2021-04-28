@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="library_transaction_action" model="ir.actions.act_window">
+        <field name="name">Transactions</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">library.transactions</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                All Transaction.
+            </p>
+        </field>
+    </record>
+
+    <record id="library_transaction_form" model="ir.ui.view">
+        <field name="name">library.transactions.form</field>
+        <field name="model">library.transactions</field>
+
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <!--                    <button name="view_tital" string="title" type="object"/>-->
+                    <button name="del_data" string="cancel" type="object"/>
+<!--                    <button name="create_set" string="Open" type="object"/>-->
+
+                    <!--                    <button name="%(library_student_action)d" string="open student(XML Action)" type="action"/>-->
+                    <button name="lib_paid" string="set to new" type="object" states="cancel" class="oe_highlight"/>
+                    <button name="lib_unpaid" string="Payment Pending" type="object" states="paid" class="btn-primary"/>
+                    <button name="lib_cancel" string="Payment Cancel" type="object" states="paid,unpaid"
+                            class="btn-primary"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <!--remove create and edit option in Many2one field nd archieve automatic show-->
+                            <field name="student_id" context='{"active_test":False}'
+                                   options='{"no_open_edit":True,"no_open": True, "no_create": True}'/>
+                            <field name="currency_id"/>
+                            <field name="contact"/>
+                            <field name="title_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="title_id"/>
+<!--                                    <field name="curncy_id"/>-->
+                                    <field name="price" sum="price" widget="monetary"
+                                           options="{'currency_field':'curncy_id'}"/>
+                                    <field name="quantity" sum="quantity"/>
+                                </tree>
+                                <form>
+                                    <group col="4">
+                                        <field name="title_id"/>
+<!--                                        <field name="curncy_id"/>-->
+                                        <field name="price" sum="price" widget="monetary"
+                                               options="{'currency_field':'curncy_id'}"/>
+                                        <field name="quantity" sum="quantity"/>
+
+                                    </group>
+                                </form>
+                            </field>
+                        </group>
+                    </group>
+                    <group col="6" class="mt-2 mt-md-0">
+                        <group colspan="4">
+                            <group class="oe_subtotal_footer oe_right" colspan="2">
+                                <field name="sub_total" widget="monetary"
+                                       options="{'currency_field':'currency_id'}"/>
+                                <field name="final_total" widget="monetary"
+                                       options="{'currency_field':'currency_id'}"/>
+                            </group>
+                            <div class="oe_clear"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="library_transaction_tree" model="ir.ui.view">
+        <field name="name">library.transactions.tree</field>
+        <field name="model">library.transactions</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="student_id" widget="many2onebutton"/>
+                <field name="title_ids"/>
+                <field name="contact"/>
+                <field name="sub_total"/>
+                <field name="final_total"/>
+                <button name="del_data" string="cancel" type="object"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="library_transactions_kanban">
+        <field name="name">library.transactions.kanban</field>
+        <field name="model">library.transactions</field>
+        <field name="arch" type="xml">
+            <!--            Drag and drop kanban view and disable drag and drop kanban view-->
+
+            <kanban records_draggable="false" default_group_by="student_id">
+                <field name="student_id"/>
+                <field name="title_ids"/>
+                <field name="contact"/>
+                <field name="sub_total"/>
+                <field name="final_total"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div col="4">
+                                <div>
+                                    <b>
+                                        <field name="student_id"/>
+                                    </b>
+                                </div>
+                                <div name="library_title_ids" class="mt-1">
+                                    Title:
+                                    <field name="title_ids"/>
+                                </div>
+                                <div name="library_contact" class="mt-1">
+                                    Contact:
+                                    <field name="contact"/>
+                                </div>
+                                <div name="library_sub_total" class="mt-1">
+                                    Sub Total:
+                                    <field name="sub_total"/>
+                                </div>
+                                <div name="library_final_total" class="mt-1">
+                                    Final Total:
+                                    <field name="final_total"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id="library_transaction_search" model="ir.ui.view">
+        <field name="name">library.transactions.search</field>
+        <field name="model">library.transactions</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="student_id"/>
+                <field name="title_ids"/>
+                <field name="contact"/>
+                <filter string="Student" name="student" context="{'group_id':'student_ids'}"/>
+            </search>
+        </field>
+    </record>
+
+
+    <menuitem id="library_transaction_root" action="library_transaction_action"
+              name="Transaction" parent="library1_book1"
+              sequence="15"/>
+
+</odoo>

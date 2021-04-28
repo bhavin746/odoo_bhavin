@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="book_action" model="ir.actions.act_window">
+        <field name="name">Book</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">book.books</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                All type of books available in our library management system.
+            </p>
+        </field>
+    </record>
+
+    <record id="book_form" model="ir.ui.view">
+        <field name="name">book.books.form</field>
+        <field name="model">book.books</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="%(british_library.create_book_wizard)d" string="Create Book" type="action"
+                            class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="title" widget="char_emojis"/>
+                            <field name="description"/>
+                            <field name="about"/>
+                            <field name="image" widget="image" class="oe_left oe_avatar"/>
+                            <field name="author_id"/>
+                        </group>
+                        <group>
+                            <field name="publisher"/>
+                            <field name="edition"/>
+                            <field name="price"/>
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="book_books_kanban">
+        <field name="name">book.books.kanban</field>
+        <field name="model">book.books</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="id"/>
+                <field name="title"/>
+                <field name="author_id"/>
+                <field name="image"/>
+                <field name="edition"/>
+                <field name="price"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <div class="o_kanban_image_fill_left d-none d-md-block">
+                                    <img class="o_image_64_contain" t-att-alt="record.value"
+                                         t-att-src="kanban_image('book.books', 'image', record.id.raw_value)"/>
+                                </div>
+                            </div>
+
+                            <div col="4">
+                                <div>
+                                    <b>
+                                        <field name="title"/>
+                                    </b>
+                                </div>
+                                <div name="library_author_id" class="mt-1">
+                                    Author:
+                                    <field name="author_id"/>
+                                </div>
+                                <div name="library_edition" class="mt-1">
+                                    Edition:
+                                    <field name="edition"/>
+                                </div>
+                                <div name="library_price" class="mt-1">
+                                    Price:
+                                    <field name="price"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id="book_tree" model="ir.ui.view">
+        <field name="name">book.books.tree</field>
+        <field name="model">book.books</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="title"/>
+                <field name="description"/>
+                <field name="about"/>
+                <field name="image"/>
+                <field name="author_id"/>
+                <field name="publisher"/>
+                <field name="edition"/>
+                <field name="price"/>
+            </tree>
+        </field>
+    </record>
+
+
+
+    <record id="book_search" model="ir.ui.view">
+        <field name="name">book.books.search</field>
+        <field name="model">book.books</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="title"/>
+                <field name="description"/>
+                <field name="about"/>
+                <field name="image"/>
+                <field name="author_id"/>
+                <field name="publisher"/>
+                <field name="edition"/>
+                <field name="price"/>
+            </search>
+        </field>
+    </record>
+
+
+    <menuitem id="book_book" name="Add Book"
+              parent="library_book_root"
+              sequence="17"/>
+    <menuitem id="new_book" name="New Add Book" action="book_action"
+              parent="book_book" sequence="18"/>
+
+</odoo>

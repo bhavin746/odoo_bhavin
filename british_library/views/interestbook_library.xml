@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="library_interestbook_action" model="ir.actions.act_window">
+        <field name="name">Interested</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">interest.book</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Interested Book
+            </p>
+        </field>
+    </record>
+
+    <record id="interestbook_form" model="ir.ui.view">
+        <field name="name">interest.books.form</field>
+        <field name="model">interest.book</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="interest_book"/>
+                        <field name="price"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="interestbook_tree_view" model="ir.ui.view">
+        <field name="name">interest.book.tree</field>
+        <field name="model">interest.book</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="interest_book"/>
+                <field name="price"/>
+            </tree>
+        </field>
+    </record>
+
+    <menuitem id="interst_book" name="Interest Book"
+              action="library_interestbook_action"
+              parent="library1_book1" sequence="16"/>
+
+
+</odoo>

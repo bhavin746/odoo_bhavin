@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+    <record id="library_author_action" model="ir.actions.act_window">
+        <field name="name">Authors</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">library.authors</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                All Authors Basic Information.
+            </p>
+        </field>
+    </record>
+
+    <record id="library_author_form" model="ir.ui.view">
+        <field name="name">library.authors.form</field>
+        <field name="model">library.authors</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="author"/>
+                            <field name="author_image" widget="image" class="oe_left oe_avatar"/>
+                            <field name="books_number"/>
+                            <field name="birth_date"/>
+                            <field name="death_date"/>
+                        </group>
+                        <group>
+                            <field name="biography"/>
+                            <field name="note"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="library_authors_kanban">
+        <field name="name">library.authors.kanban</field>
+        <field name="model">library.authors</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="id"/>
+                <field name="author"/>
+                <field name="books_number"/>
+                <field name="author_image"/>
+                <field name="birth_date"/>
+                <field name="death_date"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <div class="o_kanban_image_fill_left d-none d-md-block">
+                                    <img class="o_image_64_contain" t-att-alt="record.value" height="50px" width="50px"
+                                         t-att-src="kanban_image('library.authors', 'author_image', record.id.raw_value)"/>
+                                </div>
+                            </div>
+
+                            <div col="4">
+                                <div>
+                                    <b>
+                                        <field name="author"/>
+                                    </b>
+                                </div>
+                                <div name="library_books_number" class="mt-1">
+                                    Book Number:
+                                    <field name="books_number"/>
+                                </div>
+                                <div name="library_birth_date" class="mt-1">
+                                      Birth Date:
+                                    <field name="birth_date"/>
+                                </div>
+                                <div name="library_death_date" class="mt-1">
+                                    Death Date:
+                                    <field name="death_date"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id="library_author_tree" model="ir.ui.view">
+        <field name="name">library.authors.tree</field>
+        <field name="model">library.authors</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="author"/>
+                <field name="author_image" widget="image"/>
+                <field name="books_number"/>
+                <field name="birth_date"/>
+                <field name="death_date"/>
+                <field name="biography"/>
+                <field name="note"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="library_author_search" model="ir.ui.view">
+        <field name="name">library.authors.search</field>
+        <field name="model">library.authors</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="author"/>
+                <field name="birth_date"/>
+                <field name="death_date"/>
+                <filter string="Author" name="authors" context="{'group_id':'author'}"/>
+                <filter string="Author_bdate" name="authorsdate" context="{'group_id':'birth_date'}"/>
+                <filter string="Author_date" name="authorsate" context="{'group_id':'death_date'}"/>
+                <field name="biography"/>
+                <field name="note"/>
+            </search>
+        </field>
+    </record>
+
+
+    <menuitem id="library_author_root" action="library_author_action"
+              name="Author" parent="library1_book1"
+              sequence="14"/>
+
+</odoo>

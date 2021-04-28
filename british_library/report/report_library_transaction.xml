@@ -1,0 +1,87 @@
+<odoo>
+    <template id="report_library_transaction">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <center>
+                        <h2>Transactions:</h2>
+                    </center>
+                    <t t-foreach="docs" t-as="doc">
+                        <h2>Student:
+                            <span t-esc="doc.student_id.name"/>
+                        </h2>
+                        <div class="row mt32 mb32">
+                            <div class="col-auto col-3 mw-100 mb-2">
+                                <h3>
+                                    Date:
+                                    <span t-esc="doc.contact"/>
+                                </h3>
+                            </div>
+                        </div>
+                        <table class="table table-sm o_main_table">
+                            <thead>
+                                <th class="text-center">Title</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.title_ids" t-as="line">
+                                    <td>
+                                        <span t-esc="line.title_id.title"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.price"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.quantity"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="clearfix" name="so_total_summary">
+                            <div id="total" class="row" name="total">
+                                <div class="col-4 ml-auto">
+                                    <table class="table table-sm">
+                                        <tr class="o_subtotal" style="">
+                                            <td name="td_amount_untaxed_label">
+                                                <strong>Sub Total</strong>
+                                            </td>
+                                            <td name="td_amount_untaxed" class="text-right">
+                                                <span t-esc="doc.sub_total"
+                                                      t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+
+                                            </td>
+                                        </tr>
+                                        <tr class="border-black o_total">
+                                            <td name="td_amount_total_label">
+                                                <strong>Final Total</strong>
+                                            </td>
+                                            <td name="td_amount_total" class="text-right">
+                                                <span t-esc="doc.final_total"
+                                                      t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_library_transaction" model="ir.actions.report">
+        <field name="name">Library Transactions</field>
+        <field name="model">library.transactions</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">british_library.report_library_transaction</field>
+        <field name="report_file">british_library.report_library_transaction</field>
+        <field name="print_report_name">'Transactions - %s' % (object.student_id)</field>
+        <field name="binding_model_id" ref="model_library_transactions"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

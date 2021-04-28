@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template id="library_student" name="Library Student">
+        <t t-call="website.layout">
+            <div class="container">
+                Hey British Library in London
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td>
+                                <center>
+                                     Name:
+                                </center>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="students" t-as="student">
+                        <tr>
+                            <td>
+                                <t t-esc="student.name"/>
+                            </td>
+                        </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>
